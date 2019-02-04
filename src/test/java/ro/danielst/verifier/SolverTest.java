@@ -45,6 +45,7 @@ public class SolverTest {
     @Test
     public void test_extreme(){
         int[][] solve = Solver.solve(new Puzzles().PUZZLE_EXTREME);
+        System.out.println(SudokuPrinter.prettyPrint(solve));
         Assert.assertArrayEquals(new Puzzles().PUZZLE_EXTREME_SOLVED, solve);
     }
 }

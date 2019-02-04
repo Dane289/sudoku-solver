@@ -18,15 +18,13 @@ public class Solver {
     private static boolean humanWay(int[][] board) {
         for(int i = 0; i<board.length; i++) {
             for (int j = 0; j < board.length; j++) {
-                if (board[i][j] == 0) {
+                if (isCellEmpty(board[i][j])) {
                     int[] possibleEntries = findPossibleEntries(board, i, j);
                     if (possibleEntries.length == 1) {
                         board[i][j] = possibleEntries[0];
                         if (Verifier.isFull(board)) {
-                            System.out.println("Solved");
+                            System.out.println("Solved human way");
                             return true;
-                        } else {
-                            System.out.println("not full yet");
                         }
                         i = -1;
                         j = -1;
@@ -38,9 +36,13 @@ public class Solver {
         return false;
     }
 
+    public static boolean isCellEmpty(int cellValue) {
+        return cellValue == 0;
+    }
+
 
     public static int[] findPossibleEntries(int[][] board, int row, int col) {
-        if(board[row][col] != 0) {
+        if(!isCellEmpty(board[row][col])) {
             return new int[0];
         }
         boolean[] possibleEntries = {true,true,true,true,true,true,true,true,true};
@@ -62,42 +64,39 @@ public class Solver {
 
     public static void findPossibleEntriesOnCell(int[][] board, int row, int col, boolean[] possibleEntries) {
         int startRow, startCol;
-        if(row < 3) {
-            startRow = 0;
-        } else if(row<6){
-            startRow = 3;
-        } else {
-            startRow = 6;
-        }
-        if(col < 3) {
-            startCol = 0;
-        } else if(col<6){
-            startCol = 3;
-        } else {
-            startCol = 6;
-        }
+        startRow = resolveFirstCellOfArea(row);
+        startCol = resolveFirstCellOfArea(col);
 
         for (int i = startRow; i < startRow + 3; i++) {
             for(int j = startCol; j<startCol + 3; j++) {
-                if(board[i][j] != 0) {
+                if(!isCellEmpty(board[i][j])) {
                     possibleEntries[board[i][j] - 1] = false;
                 }
             }
         }
+    }
 
+    private static int resolveFirstCellOfArea(int colOrRow) {
+        if(colOrRow < 3) {
+            return 0;
+        } else if(colOrRow <6){
+            return 3;
+        } else {
+            return 6;
+        }
     }
 
     public static void findPossibleEntriesOnRowsAndColumns(int[][] board, int row, int col, boolean[] possibleEntries) {
         //verify row
         for (int j = 0; j<board.length; j++) {
-            if(board[row][j] != 0) {
+            if(!isCellEmpty(board[row][j])) {
                 possibleEntries[board[row][j] - 1] = false;
             }
         }
 
         //verify column
         for(int i = 0; i<board.length; i++){
-            if(board[i][col] != 0) {
+            if(!isCellEmpty(board[i][col])) {
                 possibleEntries[board[i][col] - 1] = false;
             }
         }
