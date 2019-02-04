@@ -3,6 +3,7 @@ package ro.danielst.verifier;
 import ro.danielst.print.SudokuPrinter;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 public class Solver {
     public static int[][] solve(int[][] board) {
@@ -10,41 +11,9 @@ public class Solver {
         if (humanWay(board)) {
             return board;
         } else {
-            System.out.println("Human way failed");
-            System.out.println(SudokuPrinter.prettyPrint(board));
-            for (int x = 0; x < board.length; x++) {
-                for (int y = 0; y < board[x].length; y++) {
-                    int[] possibleEntries = findPossibleEntries(board, x, y);
-                    if (board[x][y] == 0 && possibleEntries.length == 2) {
-                        System.out.println("Found a cell with 2 possibilities " + x + " " + y + "=" + possibleEntries[0] + possibleEntries[1]);
-                        int[][] clone = cloneBoard(board);
-                        clone[x][y] = possibleEntries[0];
-                        if(humanWay(clone)){
-                            System.out.println(SudokuPrinter.prettyPrint(clone));
-                            return clone;
-                        } else {
-                            clone[x][y] = possibleEntries[1];
-                            humanWay(clone);
-                            System.out.println(SudokuPrinter.prettyPrint(clone));
-                            return clone;
-                        }
-                    }
-                }
-            }
+            return new TreeSolver().solve(board);
         }
-        return board;
     }
-
-    private static int[][] cloneBoard(int[][] board) {
-        int[][] clone = new int[9][9];
-        for(int i =0 ; i<board.length; i++) {
-            for (int j = 0; j<board.length; j++) {
-                clone[i][j] = board[i][j];
-            }
-        }
-        return clone;
-    }
-
 
     private static boolean humanWay(int[][] board) {
         for(int i = 0; i<board.length; i++) {

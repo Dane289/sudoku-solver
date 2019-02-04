@@ -3,6 +3,7 @@ package ro.danielst.verifier;
 import org.junit.Assert;
 import org.junit.Test;
 import ro.danielst.Puzzles;
+import ro.danielst.print.SudokuPrinter;
 
 public class SolverTest {
     @Test
@@ -36,8 +37,14 @@ public class SolverTest {
     }
 
     @Test
-    public void test_humanFail(){
+    public void test_intermediate(){
         int[][] solve = Solver.solve(new Puzzles().PUZZLE_6);
-//        Assert.assertArrayEquals(new Puzzles().PUZZLE_FULL, solve);
+        Assert.assertArrayEquals(new Puzzles().PUZZLE_6_SOLVED, solve);
+    }
+
+    @Test
+    public void test_extreme(){
+        int[][] solve = Solver.solve(new Puzzles().PUZZLE_EXTREME);
+        Assert.assertArrayEquals(new Puzzles().PUZZLE_EXTREME_SOLVED, solve);
     }
 }
