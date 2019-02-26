@@ -2,6 +2,7 @@ package ro.danielst.ui;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 
 import java.util.Random;
 
@@ -10,21 +11,12 @@ public class Controller {
     static Random  rand = new Random();
     private FXMLLoader loader;
 
-    public void changeValue() {
-        ((Label)loader.getNamespace().get("lbl" + rand.nextInt(9) + rand.nextInt(9))).setText("x");
-    }
 
-    public void nextState(){
-        System.out.println("Next State");
-    }
-
-    public void previousState() {
-        System.out.println("Previous State");
-    }
 
     public void setLoader(FXMLLoader loader) {
         this.loader = loader;
     }
+
 
     public void display(int[][] basePuzzle) {
         for (int i = 0; i<basePuzzle.length ; i++) {
@@ -37,5 +29,10 @@ public class Controller {
                 }
             }
         }
+    }
+
+
+    public double getSpeed() {
+        return ((Slider) loader.getNamespace().get("ctrlSpeed")).getValue();
     }
 }

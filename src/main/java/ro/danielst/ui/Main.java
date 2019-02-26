@@ -6,7 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ro.danielst.Puzzles;
-import ro.danielst.verifier.Solver;
 
 public class Main extends Application {
 
@@ -15,10 +14,12 @@ public class Main extends Application {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
         Parent root = loader.load();
-        Controller controller = loader.getController();
-        controller.setLoader(loader);
-        ViewBacker viewBacker = new ViewBacker(controller);
-        new Solver(viewBacker).solve(new Puzzles().PUZZLE_2);
+        ViewBacker backer = loader.getController();
+        Controller ui = new Controller();
+        backer.setController(ui);
+        ui.setLoader(loader);
+
+        backer.setBasePuzzle(new Puzzles().PUZZLE_5);
         primaryStage.setTitle("Sudoku-solver");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
