@@ -8,43 +8,43 @@ import ro.danielst.print.SudokuPrinter;
 public class SolverTest {
     @Test
     public void test_oneEntryMissing(){
-        int[][] solve = Solver.solve(new Puzzles().PUZZLE_1);
+        int[][] solve = new Solver().solve(new Puzzles().PUZZLE_1);
         Assert.assertArrayEquals(new Puzzles().PUZZLE_FULL, solve);
     }
 
     @Test
     public void test_more1Missing(){
-        int[][] solve = Solver.solve(new Puzzles().PUZZLE_2);
+        int[][] solve = new Solver().solve(new Puzzles().PUZZLE_2);
         Assert.assertArrayEquals(new Puzzles().PUZZLE_FULL, solve);
     }
 
     @Test
     public void test_more2Missing(){
-        int[][] solve = Solver.solve(new Puzzles().PUZZLE_3);
+        int[][] solve = new Solver().solve(new Puzzles().PUZZLE_3);
         Assert.assertArrayEquals(new Puzzles().PUZZLE_FULL, solve);
     }
 
     @Test
     public void test_more3Missing(){
-        int[][] solve = Solver.solve(new Puzzles().PUZZLE_4);
+        int[][] solve = new Solver().solve(new Puzzles().PUZZLE_4);
         Assert.assertArrayEquals(new Puzzles().PUZZLE_FULL, solve);
     }
 
     @Test
     public void test_more4Missing(){
-        int[][] solve = Solver.solve(new Puzzles().PUZZLE_5);
+        int[][] solve = new Solver().solve(new Puzzles().PUZZLE_5);
         Assert.assertArrayEquals(new Puzzles().PUZZLE_FULL, solve);
     }
 
     @Test
     public void test_intermediate(){
-        int[][] solve = Solver.solve(new Puzzles().PUZZLE_6);
+        int[][] solve = new Solver().solve(new Puzzles().PUZZLE_6);
         Assert.assertArrayEquals(new Puzzles().PUZZLE_6_SOLVED, solve);
     }
 
     @Test
     public void test_extreme(){
-        int[][] solve = Solver.solve(new Puzzles().PUZZLE_EXTREME);
+        int[][] solve = new Solver().solve(new Puzzles().PUZZLE_EXTREME);
         System.out.println(SudokuPrinter.prettyPrint(solve));
         Assert.assertArrayEquals(new Puzzles().PUZZLE_EXTREME_SOLVED, solve);
     }

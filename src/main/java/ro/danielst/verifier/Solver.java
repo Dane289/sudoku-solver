@@ -1,13 +1,25 @@
 package ro.danielst.verifier;
 
-import ro.danielst.print.SudokuPrinter;
+import ro.danielst.ui.ModelChangeListener;
 
 import java.util.ArrayList;
-import java.util.TreeSet;
 
 public class Solver {
-    public static int[][] solve(int[][] board) {
+    private ModelChangeListener changeListener;
 
+    public Solver() {
+    }
+    public Solver(ModelChangeListener listener) {
+        this.changeListener = listener;
+    }
+
+    private void updateModel(int[][] newModel) {
+        if(changeListener != null) {
+            changeListener.pushNewModel(newModel);
+        }
+    }
+
+    public int[][] solve(int[][] board) {
         if (humanWay(board)) {
             return board;
         } else {
@@ -15,19 +27,19 @@ public class Solver {
         }
     }
 
-    private static boolean humanWay(int[][] board) {
+    private boolean humanWay(int[][] board) {
         for(int i = 0; i<board.length; i++) {
             for (int j = 0; j < board.length; j++) {
                 if (isCellEmpty(board[i][j])) {
                     int[] possibleEntries = findPossibleEntries(board, i, j);
                     if (possibleEntries.length == 1) {
                         board[i][j] = possibleEntries[0];
+                        updateModel(board);
                         if (Verifier.isFull(board)) {
                             System.out.println("Solved human way");
                             return true;
                         }
                         i = -1;
-                        j = -1;
                         break;
                     }
                 }
