@@ -6,8 +6,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.effect.Blend?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -43,7 +41,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label fx:id="lbl00" onMouseClicked="#changeValue" text="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                        <Label fx:id="lbl00" onMouseClicked="#solve" text="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                            <font>
                               <Font name="System Bold" size="30.0" />
                            </font>
@@ -573,9 +571,9 @@
                   </Slider>
                   <HBox alignment="CENTER" fillHeight="false" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                      <children>
-                        <Button mnemonicParsing="false" onMouseClicked="#previousState" prefWidth="70.0" text="Previous" />
-                        <Button mnemonicParsing="false" onMouseClicked="#changeValue" prefWidth="70.0" text="Change" />
-                        <Button mnemonicParsing="false" onMouseClicked="#nextState" prefWidth="70.0" text="Next" />
+                        <Button fx:id="prevStep" mnemonicParsing="false" onMouseClicked="#previousState" prefWidth="70.0" text="Previous" />
+                        <Button mnemonicParsing="false" onMouseClicked="#solve" prefWidth="70.0" text="Change" />
+                        <Button fx:id="nextStep" mnemonicParsing="false" onMouseClicked="#nextState" prefWidth="70.0" text="Next" />
                      </children>
                      <padding>
                         <Insets top="5.0" />
@@ -587,23 +585,11 @@
       </VBox>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
          <children>
-            <ComboBox prefHeight="25.0" prefWidth="118.0" promptText="Select Puzzle" />
-            <Label alignment="CENTER" text="Speed" textAlignment="CENTER">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Button fx:id="btnStart" alignment="CENTER" mnemonicParsing="false" onAction="#start">
+            <ComboBox fx:id="cboPuzzle" onAction="#newPuzzleSelected" prefHeight="25.0" prefWidth="118.0" promptText="Select Puzzle" />
+            <Button fx:id="btnStart" alignment="CENTER" mnemonicParsing="false" onAction="#reset" text="Reset">
                <VBox.margin>
                   <Insets top="20.0" />
                </VBox.margin>
-               <graphic>
-                  <ImageView fitHeight="105.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../resources/icons/play.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
                <effect>
                   <Blend />
                </effect>
