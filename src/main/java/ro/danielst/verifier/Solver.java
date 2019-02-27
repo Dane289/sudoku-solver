@@ -23,7 +23,7 @@ public class Solver {
         if (humanWay(board)) {
             return board;
         } else {
-            return new TreeSolver().solve(board);
+            return new TreeSolver(changeListener).solve(board);
         }
     }
 

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ViewBacker implements ModelChangeListener {
     private Controller controller;
-    private int[][] basePuzzle, workingPuzzle;
+    private int[][] basePuzzle, workingPuzzle, diffPuzzle;
     private int speed = 500;
     private List<List<Change>> steps = new ArrayList<>();
     private int currentStep = 0;
@@ -24,8 +24,8 @@ public class ViewBacker implements ModelChangeListener {
 
     @Override
     public void pushNewModel(int[][] newModel) {
-        steps.add(findChanges(basePuzzle, newModel));
-        this.basePuzzle = new SudokuBoard(newModel).getBoard();
+        steps.add(findChanges(diffPuzzle, newModel));
+        diffPuzzle = new SudokuBoard(newModel).getBoard();
     }
 
     private List<Change> findChanges(int[][] basePuzzle, int[][] newModel) {
@@ -44,7 +44,7 @@ public class ViewBacker implements ModelChangeListener {
     }
 
     public void nextState(){
-        if(currentStep - 1 == steps.size()) {
+        if(currentStep == steps.size()) {
             return;
         }
         for(Change c : steps.get(currentStep)) {
@@ -52,6 +52,7 @@ public class ViewBacker implements ModelChangeListener {
         }
         currentStep++;
         controller.display(workingPuzzle);
+        controller.setProgression(currentStep);
     }
 
     public void previousState() {
@@ -63,19 +64,28 @@ public class ViewBacker implements ModelChangeListener {
             workingPuzzle[c.getRow()][c.getCol()] = c.getOldValue();
         }
         controller.display(workingPuzzle);
+        controller.setProgression(currentStep);
     }
 
     public void sliderChange() {
-        speed = (int) (1000 - 10 * controller.getSpeed());
+//        speed = (int) (1000 - 10 * controller.getSpeed());
     }
 
     public void start() {
-        new Solver(this).solve(new SudokuBoard(basePuzzle).getBoard());
+        workingPuzzle = new SudokuBoard(basePuzzle).getBoard();
+        currentStep = 0;
+        controller.setProgression(currentStep);
+        controller.display(basePuzzle);
+
     }
 
     public void setBasePuzzle(int[][] sudokuBoard) {
-        this.basePuzzle = sudokuBoard;
+        this.basePuzzle = new SudokuBoard(sudokuBoard).getBoard();
+        this.diffPuzzle = new SudokuBoard(sudokuBoard).getBoard();
         this.workingPuzzle = new SudokuBoard(basePuzzle).getBoard();
         controller.display(basePuzzle);
+        new Solver(this).solve(new SudokuBoard(sudokuBoard).getBoard());
+        controller.setProgressionMax(this.steps.size());
+        controller.setProgression(currentStep);
     }
 }

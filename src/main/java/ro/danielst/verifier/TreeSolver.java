@@ -2,10 +2,25 @@ package ro.danielst.verifier;
 
 import ro.danielst.model.SudokuBoard;
 import ro.danielst.tree.Node;
+import ro.danielst.ui.ModelChangeListener;
 
 public class TreeSolver {
 
+    private ModelChangeListener changeListener;
     private SudokuBoard solution;
+
+    public TreeSolver() {
+    }
+
+    public TreeSolver(ModelChangeListener changeListener) {
+        this.changeListener = changeListener;
+    }
+
+    private void updateView(int[][] newModel) {
+        if(changeListener !=null) {
+            changeListener.pushNewModel(newModel);
+        }
+    }
 
     public int[][] solve(int[][] board) {
         generateNodes(new Node<>(new SudokuBoard(board)));
@@ -21,6 +36,7 @@ public class TreeSolver {
             return;
         }
             if(solution == null && fillCellWithAllPossibleValues(root)) {
+                updateView(root.getValue().getBoard());
                 for(Node<SudokuBoard> n : root.getChildren()) {
                     generateNodes(n);
                 }
@@ -38,6 +54,7 @@ public class TreeSolver {
                     for (int p = 0; p < possibleEntries.length; p++) {
                         root.getValue().getBoard()[i][j] = possibleEntries[p];
                         Node<SudokuBoard> n = new Node<>(new SudokuBoard(root.getValue().getBoard()));
+
                         root.addChild(n);
                     }
                     return true;

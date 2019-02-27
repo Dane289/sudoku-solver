@@ -3,15 +3,11 @@ package ro.danielst.ui;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-
-import java.util.Random;
+import javafx.scene.paint.Paint;
 
 public class Controller {
 
-    static Random  rand = new Random();
     private FXMLLoader loader;
-
-
 
     public void setLoader(FXMLLoader loader) {
         this.loader = loader;
@@ -25,14 +21,23 @@ public class Controller {
                 if(basePuzzle[i][j] == 0) {
                     label.setText(" ");
                 } else {
+                    String initialValue = label.getText();
                     label.setText(String.valueOf(basePuzzle[i][j]));
+                    if(initialValue.equals(String.valueOf(basePuzzle[i][j]))) {
+                        label.setTextFill(Paint.valueOf("#000000"));
+                    } else {
+                        label.setTextFill(Paint.valueOf("#999999"));
+                    }
                 }
             }
         }
     }
 
+    public void setProgression(int progress) {
+        ((Slider) loader.getNamespace().get("ctrlSpeed")).setValue(progress);
+    }
 
-    public double getSpeed() {
-        return ((Slider) loader.getNamespace().get("ctrlSpeed")).getValue();
+    public void setProgressionMax(int maxProgress) {
+        ((Slider) loader.getNamespace().get("ctrlSpeed")).setMax(maxProgress);
     }
 }
